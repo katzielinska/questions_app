@@ -3,6 +3,8 @@ const express = require('express'); // The express.js library for implementing t
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const cors = require('cors');
+const mongoose = require('mongoose');
+const path = require('path');
 
 /**** Configuration ****/
 const appName = "Express API Template"; // Change the name of your server app!
@@ -89,7 +91,9 @@ app.post('/api/questions/:id/answers', (req, res) => {
 //     });
 // });
 
-
+app.get('*', (req, res) =>
+    res.sendFile(path.resolve('..', 'client', 'build', 'index.html'))
+);
 
 /**** Start! ****/
 app.listen(port, () => console.log(`${appName} API running on port ${port}!`));
