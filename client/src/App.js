@@ -1,76 +1,86 @@
-import React, {Component} from 'react';
-import Questions from './Questions';
-import Question from './Question';
-import {Router} from '@reach/router';
+import React, { Component } from "react";
+import Questions from "./Questions";
+import Question from "./Question";
+import { Router } from "@reach/router";
 import AskQuestion from "./AskQuestion";
-const fetch = require('node-fetch');
 
+class App extends Component {
+  API_URL = process.env.REACT_APP_API_URL;
 
-class App extends Component{
-    constructor(props){
-        super(props);
+  constructor(props) {
+    super(props);
 
-        this.state = {
-            questions: []
-        };
-    }
+    this.state = {
+      questions: [],
+    };
+  }
 
-    componentDidMount() {
-        this.getData();
-    }
-    async getData(){
-        const response = await fetch('http://localhost:8000/api/questions');
-        const data = await response.json();
-        console.log("Printing the questions:", data);
-        this.setState({questions:data})
-    }
-    async postData(input) {
-        const response = await fetch('http://localhost:8000/api/questions', {
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            method: 'POST',
-            body: JSON.stringify({
-                "title": input,
-                done: false
-            })
-        });
-        const data = await response.json();
-        this.getData();
-    }
+  componentDidMount() {
+    this.getData();
+  }
 
-   submit(title) {
-        const newQuestion = {
-            id: Math.random(),
-            title: title
-        };
-        this.setState({
-            questions: [...this.state.questions, newQuestion]
-        })
-    }
+  async getData() {
+    // const response = await fetch("http://localhost:8000/api/questions");
+    // const data = await response.json();
+    // console.log("Printing the questions:", data);
+    // this.setState({
+    //   questions: data,
+    // });
+    let url = `${this.API_URL}/questions`; // URL of the API.
+    let result = await fetch(url); // Get the data
+    let json = await result.json(); // Turn it into json
+    return this.setState({
+      // Set it in the state
+      questions: json,
+    });
+  }
 
-    getQuestion(id){
-        return this.state.questions.find(question => question.id === parseInt(id));
-    }
+  async postData(input) {
+    const response = await fetch("http://localhost:8000/api/questions", {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      method: "POST",
+      body: JSON.stringify({
+        text: input,
+        answers: [],
+      }),
+    });
+    const data = await response.json();
+    this.getData();
+  }
 
+  //   submit(text) {
+  //     const newQuestion = {
+  //       id: Math.random(),
+  //       text: text,
+  //     };
+  //     this.setState({
+  //       questions: [...this.state.questions, newQuestion],
+  //     });
+  //   }
 
+  getQuestion(id) {
+    return this.state.questions.find((question) => question._id === id);
+  }
 
-
-    render(){
-        return (
-            <>
-                <Router>
-                    <Questions path="/" data={this.state.questions}></Questions>
-                    <Question
-                        path="/question/:id"
-                        getQuestion={(id) => this.getQuestion(id)}></Question>
-                    <AskQuestion path="/ask" submit={(title) => this.submit(title)} addQuestion={(question) => this.postData(question)} />
-                </Router>
-
-            </>
-        );
-    }
-
+  render() {
+    return (
+      <>
+        <Router>
+          <Questions path="/" data={this.state.questions}></Questions>
+          <Question
+            path="/question/:id"
+            getQuestion={(id) => this.getQuestion(id)}
+          ></Question>
+          <AskQuestion
+            path="/ask"
+            postData={(question) => this.postData(question)}
+          />
+        </Router>
+      </>
+    );
+  }
 }
 
 export default App;

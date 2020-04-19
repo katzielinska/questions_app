@@ -7,70 +7,50 @@ const mongoose = require('mongoose');
 const path = require('path');
 
 /**** Configuration ****/
-const appName = "Express API Template"; // Change the name of your server app!
 const port = process.env.PORT || 8000; // Pick port 8080 if the PORT env variable is empty.
 const app = express(); // Get the express app object.
 
 app.use(bodyParser.json()); // Add middleware that parses JSON from the request body.
 app.use(morgan('combined')); // Add middleware that logs all http requests to the console.
-app.use(cors()); // Avoid CORS errors. https://en.wikipedia.org/wiki/Cross-origin_resource_sharing
+app.use(cors()); // Avoid CORS errors.
+app.use(express.static('../client/build'));
 
-/**** Some test data ****/
-const data = [{
-        title: "What is the meaning of life?",
-        id: 0,
-        answers: []
-    },
-    {
-        title: "Do you ever doubt the existence of others than you?",
-        id: 1,
-        answers: []
-    },
-    {
-        title: "What part of the human face is your favorite?",
-        id: 2,
-        answers: []
-    },
-    {
-        title: "What is 1 plus 1?",
-        id: 3,
-        answers: []
-    }
-];
+/**** Database ****/
+const questionsDB = require('./questions_db')(mongoose);
 
 /**** Routes ****/
 
 // Return all recipes in data
-app.get('/api/questions', (req, res) => res.json(data));
 
+app.get('/api/questions', async (req, res) => {
+    const questions = await questionsDB.getQuestions();
+    res.json(questions);
+});
 
-app.post('/api/questions', (req, res) => {
-    const title = req.body.title;
-    const answers = req.body.answers;
-    const id = Math.random();
-    const newQuestion = {
-        title: title,
-        id: id,
-        answers: answers
+app.post('/api/questions', async (req, res) => {
+    let question = {
+        text: req.body.text,
+        answers: []
     };
-    data.push(newQuestion);
+    const newQuestion = await questionsDB.createQuestion(question);
     res.json({
         msg: "Question added",
         newQuestion: newQuestion
     });
 });
 
-app.post('/api/questions/:id/answers', (req, res) => {
-    const id = parseInt(req.params.id);
-    const text = req.body.text;
-    const question = questions.find(q => q.id === id);
-    question.answers.push(text);
-    console.log(question);
-    res.json({
-        msg: "Answer added",
-        question: question
-    });
-});
+
+// app.post('/api/questions/:id/answers', (req, res) => {
+//     const id = parseInt(req.params.id);
+//     const text = req.body.text;
+//     const question = questions.find(q => q.id === id);
+//     question.answers.push(text);
+//     console.log(question);
+//     res.json({
+//         msg: "Answer added",
+//         question: question
+//     });
+// });
 
 // app.put('/api/questions', (req, res) => {
 //     const text = req.body.title;
@@ -96,4 +76,14 @@ app.get('*', (req, res) =>
 );
 
 /**** Start! ****/
-app.listen(port, () => console.log(`${appName} API running on port ${port}!`));
+const url = process.env.MONGO_URL || 'mongodb://localhost/questions_db';
+mongoose.connect(url, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true
+    })
+    .then(async () => {
+        await questionsDB.addQuestions(); // Fill in test data if needed.
+        await app.listen(port); // Start the API
+        console.log(`Questions API running on port ${port}!`);
+    })
+    .catch(error => console.error(error));
