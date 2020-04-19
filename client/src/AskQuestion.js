@@ -10,6 +10,7 @@ class AskQuestion extends Component {
   }
 
   onChange(event) {
+    console.log(event.target.name, event.target.value);
     this.setState({
       [event.target.name]: event.target.value,
     });
@@ -23,9 +24,9 @@ class AskQuestion extends Component {
     return (
       <>
         <h2> Ask a question </h2>{" "}
-        <label htmlFor="title"> What do you want to ask ? </label>{" "}
+        <label htmlFor="text"> What do you want to ask ? </label>{" "}
         <input
-          name="title"
+          name="text"
           onChange={(event) => this.onChange(event)}
           type="text"
           placeholder="e.g Is there life out there in the universe?"
