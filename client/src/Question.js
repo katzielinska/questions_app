@@ -4,7 +4,10 @@ import PostAnswer from "./PostAnswer";
 
 class Question extends React.Component {
   render() {
-    let question = this.props.getQuestion(this.props.id);
+    const id = this.props.id;
+    let question = this.props.getQuestion(id);
+
+    console.log(question);
 
     return (
       <>
@@ -13,11 +16,14 @@ class Question extends React.Component {
         <h3>Answers:</h3>
         <ul>
           {question.answers.map((answer) => (
-            <li key={answer.id}>{answer.text}</li>
+            <li key={answer._id}>{answer.text}</li>
           ))}
         </ul>
 
-        <PostAnswer postData={(text) => this.submit(text)} />
+        <PostAnswer
+          id={id}
+          postAnswer={(id, text) => this.props.postAnswer(id, text)}
+        />
       </>
     );
   }

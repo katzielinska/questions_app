@@ -40,17 +40,17 @@ app.post('/api/questions', async (req, res) => {
 });
 
 
-// app.post('/api/questions/:id/answers', (req, res) => {
-//     const id = parseInt(req.params.id);
-//     const text = req.body.text;
-//     const question = questions.find(q => q.id === id);
-//     question.answers.push(text);
-//     console.log(question);
-//     res.json({
-//         msg: "Answer added",
-//         question: question
-//     });
-// });
+app.post('/api/questions/:id/answers', async (req, res) => {
+    let answer = {
+        text: req.body.text,
+    };
+    const newAnswer = await questionsDB.addAnswer(req.params.id, answer)
+    console.log(newAnswer);
+    res.json({
+        msg: "Answer added",
+        newAnswer: newAnswer
+    });
+});
 
 // app.put('/api/questions', (req, res) => {
 //     const text = req.body.title;

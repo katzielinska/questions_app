@@ -6,7 +6,7 @@ class Questions extends Component {
     let list = [];
     this.props.data.forEach((elm) => {
       list.push(
-        <li key={this.props._id}>
+        <li key={elm._id}>
           <Link to={"/question/" + elm._id}> {elm.text} </Link>
         </li>
       );

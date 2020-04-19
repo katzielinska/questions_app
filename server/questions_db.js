@@ -40,12 +40,12 @@ class Db {
         return await question.save();
     }
 
-    // async addHobby(kittenId, hobby) {
-    //     // TODO: Error handling
-    //     const kitten = await this.getKitten(kittenId);
-    //     kitten.hobbies.push(hobby);
-    //     return await kitten.save();
-    // }
+    async addAnswer(questionId, answer) {
+        console.log(questionId, answer)
+        const question = await this.getQuestion(questionId);
+        question.answers.push(answer);
+        return await question.save();
+    }
 
     /**
      * This method adds a bunch of test data if the database is empty.

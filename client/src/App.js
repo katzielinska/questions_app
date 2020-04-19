@@ -48,7 +48,7 @@ class App extends Component {
 
   async postAnswer(id, text) {
     console.log("postAnswer", id, text);
-    let url = `${this.API_URL}/questions`;
+    let url = `${this.API_URL}/questions/${id}/answers`;
 
     const response = await fetch(url, {
       headers: {
@@ -61,10 +61,14 @@ class App extends Component {
     });
     const data = await response.json();
     console.log("Printing the response:", data);
+    this.getData();
   }
 
   getQuestion(id) {
-    return this.state.questions.find((question) => question._id === id);
+    let something = this.state.questions.find(
+      (question) => question._id === id
+    );
+    return something;
   }
 
   render() {
@@ -75,6 +79,7 @@ class App extends Component {
           <Question
             path="/question/:id"
             getQuestion={(id) => this.getQuestion(id)}
+            postAnswer={(id, text) => this.postAnswer(id, text)}
           ></Question>
           <AskQuestion
             path="/ask"
