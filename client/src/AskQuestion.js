@@ -22,16 +22,31 @@ class AskQuestion extends Component {
   render() {
     return (
       <>
-        <h2> Ask a question </h2>{" "}
-        <label htmlFor="text"> What do you want to ask ? </label>{" "}
-        <input
-          name="text"
-          onChange={(event) => this.onChange(event)}
-          type="text"
-          placeholder="e.g Is there life out there in the universe?"
-        />
-        <button onClick={(_) => this.onSubmit()}> Ask a question </button>{" "}
-        <Link to={"/"}> Back to questions list </Link>{" "}
+        <div className="ask">
+          <div className="ask_heading">
+            <Link to={"/"} className="backlink">
+              Back to questions list
+            </Link>
+            <h1> Ask a question </h1>
+          </div>
+          <div className="ask_form">
+            <div>
+              <label htmlFor="text"> What do you want to ask? </label>
+              <p>
+                It can be anything you would like to know. Yes, a n y t h i n g.
+              </p>
+            </div>
+            <input
+              name="text"
+              onChange={(event) => this.onChange(event)}
+              type="text"
+              placeholder="e.g Is there life out there in the universe?"
+            />
+            <button className="button" onClick={(_) => this.onSubmit()}>
+              Post your question
+            </button>
+          </div>
+        </div>
       </>
     );
   }

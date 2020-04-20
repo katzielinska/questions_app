@@ -10,36 +10,45 @@ class Question extends React.Component {
   render() {
     const id = this.props.id;
     let question = this.props.getQuestion(id);
+    let answersList;
 
-    return (
-      <>
-        <Link to={"/"}>Back to questions list</Link>
-        <h1>{question.text}</h1>
-        <h3>Answers:</h3>
-        <ul>
+    if (question.answers.length === 0) {
+      answersList = <p>No answers yet. Be the first one to reply!</p>;
+    } else {
+      answersList = (
+        <ul className="answers">
           {question.answers.map((answer) => (
-            <li key={answer._id}>
-              {answer.text}
+            <li key={answer._id} className="answer">
               <div className="votes">
-                <span>Vote count: </span>
-                {answer.votes}
                 <button onClick={() => this.vote(answer._id, true)}>
-                  Upvote
+                  &#8679;
                 </button>
+                <span>{answer.votes}</span>
                 <button onClick={() => this.vote(answer._id, false)}>
-                  Downvote
+                  &#8681;
                 </button>
               </div>
+              <p>{answer.text}</p>
             </li>
           ))}
         </ul>
+      );
+    }
 
+    return (
+      <>
+        <Link to={"/"} className="backlink">
+          Back to questions list
+        </Link>
+        <h1>{question.text}</h1>
         <PostAnswer
           id={id}
           postAnswer={(id, text, votes) =>
             this.props.postAnswer(id, text, votes)
           }
         />
+        <h3>Answers:</h3>
+        {answersList}
       </>
     );
   }

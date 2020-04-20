@@ -22,14 +22,18 @@ class PostAnswer extends Component {
   render() {
     return (
       <>
-        <label htmlFor="text"> Your answer </label>{" "}
-        <textarea
-          name="text"
-          onChange={(event) => this.onChange(event)}
-          type="text"
-        />
-        <button onClick={(_) => this.onSubmit()}> Post your answer </button>{" "}
-        <Link to={"/"}> Back to questions list </Link>{" "}
+        <div className="answer_form">
+          <h3>Reply to this question:</h3>
+          <textarea
+            name="text"
+            onChange={(event) => this.onChange(event)}
+            type="text"
+            placeholder="What are your thoughts?"
+          />
+          <button className="button" onClick={(_) => this.onSubmit()}>
+            Post your answer
+          </button>
+        </div>
       </>
     );
   }

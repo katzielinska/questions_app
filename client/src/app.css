@@ -1,3 +1,137 @@
-body{
-    font-family: Helvetica, sans-serif;
+body {
+  font-family: "Work Sans", sans-serif;
+}
+
+#root {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.questions_heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  border-bottom: 1px solid #e6e6e6;
+}
+
+.button {
+  padding: 8px;
+  font-size: 12px;
+  background-color: #50b895;
+  border-radius: 4px;
+  color: white;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.questions_list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.question_card {
+  display: flex;
+  justify-content: space-between;
+  margin: 32px 0;
+}
+.question_card a {
+  text-decoration: none;
+  color: black;
+}
+.question_card a:hover {
+  color: #50b895;
+  text-decoration: underline;
+}
+
+.backlink {
+  color: #50b895;
+}
+
+.ask {
+  max-width: 600px;
+  margin: 0 auto;
+  border: 1px solid #c4c4c4;
+  border-radius: 4px;
+  padding: 24px;
+}
+
+.ask_form {
+  display: grid;
+
+  grid-gap: 16px;
+}
+
+.ask_form p {
+  font-size: 12px;
+  color: #6d6d6d;
+}
+
+.ask_form input {
+  height: 38px;
+  padding: 0 12px;
+  font-size: 14px;
+  font-family: inherit;
+  border-radius: 4px;
+  border: 1px solid #c4c4c4;
+}
+.ask_form input::placeholder {
+  color: #c4c4c4;
+}
+
+.answers {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  grid-gap: 24px;
+}
+
+.answer {
+  display: grid;
+  grid-template-columns: 32px auto;
+  align-items: baseline;
+  grid-gap: 24px;
+  border: 1px solid #c4c4c4;
+  border-radius: 4px;
+  padding: 12px;
+}
+
+.votes {
+  display: grid;
+  justify-content: flex-start;
+  text-align: center;
+  align-self: center;
+}
+
+.votes button {
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  color: #50b895;
+}
+
+.answer_form {
+  display: grid;
+  grid-gap: 24px;
+  margin: 48px 0;
+}
+.answer_form button {
+  width: 160px;
+}
+.answer_form h3 {
+  margin: 0;
+}
+.answer_form textarea {
+  border-radius: 4px;
+  border: 1px solid #c4c4c4;
+  min-height: 96px;
+  font-size: 14px;
+  font-family: inherit;
+  padding: 12px;
+}
+
+.answer_form textarea::placeholder {
+  color: #c4c4c4;
 }
