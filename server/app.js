@@ -20,11 +20,15 @@ const questionsDB = require('./questions_db')(mongoose);
 
 /**** Routes ****/
 
-// Return all recipes in data
-
 app.get('/api/questions', async (req, res) => {
     const questions = await questionsDB.getQuestions();
     res.json(questions);
+});
+
+app.get('/api/questions/:id', async (req, res) => {
+    let id = req.params.id;
+    const question = await questionsDB.getQuestion(id);
+    res.json(question);
 });
 
 app.post('/api/questions', async (req, res) => {
@@ -53,43 +57,23 @@ app.post('/api/questions/:id/answers', async (req, res) => {
     });
 });
 
-app.put('/api/questions/:id/answers/:id', async (req, res) => {
-    const text = req.body.title;
-    const done = req.body.done;
-    const task = data.find(task => task.id === parseInt(id));
+// app.put('/api/questions/:id/answers/:id', async (req, res) => {
 
-    if (text) {
-        task.text = text
-    };
-
-    if (done !== undefined) {
-        task.done = done
-    };
-
-    res.json({
-        msg: "Voted",
-        newTask: newTask
-    });
-});
-
-// vote(questionID, answerID, isUpvote) {
-//     let stateCopy = this.state.questions;
-//     let targetQuestion = this.state.questions.find(
-//         (question) => question._id === questionID
-//     );
-//     let targetAnswer = targetQuestion.answers.find(
-//         (answer) => answer._id === answerID
-//     );
-//     console.log(targetAnswer);
-//     if (isUpvote) {
-//         targetAnswer.votes++;
+//     let isUpvote = req.body.
+//     if(isUpvote) {
+//         req.body.votes++;
 //     } else {
-//         targetAnswer.votes--;
+//         req.body.votes--;
 //     }
 
-//     this.setState({
-//         questions: stateCopy,
+//     res.json({
+//         msg: "Voted",
+//         newTask: newTask
 //     });
+// });
+
+// vote(questionID, answerID, isUpvote) {
+
 // }
 
 app.get('*', (req, res) =>

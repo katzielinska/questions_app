@@ -49,7 +49,7 @@ class Db {
 
     // async vote(answerID, vote) {
     //     const answer = await this.getQuestion(questionID);
-    //     question.answers.push(answer);
+    //     answer.votes.push(vote);
     //     return await question.save();
     // }
 

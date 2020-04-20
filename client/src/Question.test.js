@@ -13,8 +13,12 @@ const question = {
       text: "Would like to know that too...",
       votes: -1,
     },
+    {
+      id: 11,
+      text: "lol",
+      votes: 12,
+    },
   ],
-  cd,
 };
 
 it("renders the question text", () => {
@@ -26,7 +30,5 @@ it("renders the question text", () => {
 it("renders answers for the question", () => {
   const comp = <Question getQuestion={(_) => question} />;
   const { getByText } = render(comp);
-  question.answers.forEach((answer) =>
-    expect(getByText(answer)).toBeInTheDocument()
-  );
+  question.answers.forEach((a) => expect(getByText(a)).toBeInTheDocument());
 });

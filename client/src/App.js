@@ -63,16 +63,15 @@ class App extends Component {
     this.getData();
   }
 
-  // async updateVotes(questionID, answerID, isUpvote){
-  //   let url = `${this.API_URL}/questions/${id}/answers/${id}`;
+  // async changeVote(id, answerID, vote) {
+  //   let url = `${this.API_URL}/questions/${id}/answers/${answerID}`;
   //   const response = await fetch(url, {
   //     headers: {
   //       "Content-Type": "application/json",
   //     },
-  //     method: "POST",
+  //     method: "PUT",
   //     body: JSON.stringify({
-  //       text: text,
-  //       votes: [],
+  //       votes: vote,
   //     }),
   //   });
   //   const data = await response.json();
@@ -99,7 +98,6 @@ class App extends Component {
     } else {
       targetAnswer.votes--;
     }
-
     this.setState({
       questions: stateCopy,
     });
