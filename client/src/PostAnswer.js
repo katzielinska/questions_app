@@ -16,7 +16,7 @@ class PostAnswer extends Component {
   }
 
   onSubmit() {
-    this.props.postAnswer(this.props.id, this.state.text);
+    this.props.postAnswer(this.props.id, this.state.text, this.state.votes);
   }
 
   render() {

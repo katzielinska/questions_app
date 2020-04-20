@@ -47,9 +47,7 @@ class App extends Component {
   }
 
   async postAnswer(id, text) {
-    console.log("postAnswer", id, text);
     let url = `${this.API_URL}/questions/${id}/answers`;
-
     const response = await fetch(url, {
       headers: {
         "Content-Type": "application/json",
@@ -57,6 +55,7 @@ class App extends Component {
       method: "POST",
       body: JSON.stringify({
         text: text,
+        votes: [],
       }),
     });
     const data = await response.json();
@@ -64,11 +63,46 @@ class App extends Component {
     this.getData();
   }
 
+  // async updateVotes(questionID, answerID, isUpvote){
+  //   let url = `${this.API_URL}/questions/${id}/answers/${id}`;
+  //   const response = await fetch(url, {
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //     method: "POST",
+  //     body: JSON.stringify({
+  //       text: text,
+  //       votes: [],
+  //     }),
+  //   });
+  //   const data = await response.json();
+  //   console.log("Printing the response:", data);
+  //   this.getData();
+  // }
+
   getQuestion(id) {
-    let something = this.state.questions.find(
-      (question) => question._id === id
+    let question = this.state.questions.find((question) => question._id === id);
+    return question;
+  }
+
+  vote(questionID, answerID, isUpvote) {
+    let stateCopy = this.state.questions;
+    let targetQuestion = this.state.questions.find(
+      (question) => question._id === questionID
     );
-    return something;
+    let targetAnswer = targetQuestion.answers.find(
+      (answer) => answer._id === answerID
+    );
+    console.log(targetAnswer);
+    if (isUpvote) {
+      targetAnswer.votes++;
+    } else {
+      targetAnswer.votes--;
+    }
+
+    this.setState({
+      questions: stateCopy,
+    });
   }
 
   render() {
@@ -79,7 +113,8 @@ class App extends Component {
           <Question
             path="/question/:id"
             getQuestion={(id) => this.getQuestion(id)}
-            postAnswer={(id, text) => this.postAnswer(id, text)}
+            postAnswer={(id, text, votes) => this.postAnswer(id, text, votes)}
+            vote={(id, answerID, isUpvote) => this.vote(id, answerID, isUpvote)}
           ></Question>
           <AskQuestion
             path="/ask"

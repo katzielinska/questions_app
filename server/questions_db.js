@@ -40,12 +40,19 @@ class Db {
         return await question.save();
     }
 
-    async addAnswer(questionId, answer) {
-        console.log(questionId, answer)
-        const question = await this.getQuestion(questionId);
+    async addAnswer(questionID, answer) {
+        console.log(questionID, answer)
+        const question = await this.getQuestion(questionID);
         question.answers.push(answer);
         return await question.save();
     }
+
+    // async vote(answerID, vote) {
+    //     const answer = await this.getQuestion(questionID);
+    //     question.answers.push(answer);
+    //     return await question.save();
+    // }
+
 
     /**
      * This method adds a bunch of test data if the database is empty.

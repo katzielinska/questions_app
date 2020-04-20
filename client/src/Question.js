@@ -3,11 +3,13 @@ import { Link } from "@reach/router";
 import PostAnswer from "./PostAnswer";
 
 class Question extends React.Component {
+  vote(answerID, isUpvote) {
+    this.props.vote(this.props.id, answerID, isUpvote);
+  }
+
   render() {
     const id = this.props.id;
     let question = this.props.getQuestion(id);
-
-    console.log(question);
 
     return (
       <>
@@ -16,13 +18,27 @@ class Question extends React.Component {
         <h3>Answers:</h3>
         <ul>
           {question.answers.map((answer) => (
-            <li key={answer._id}>{answer.text}</li>
+            <li key={answer._id}>
+              {answer.text}
+              <div className="votes">
+                <span>Vote count: </span>
+                {answer.votes}
+                <button onClick={() => this.vote(answer._id, true)}>
+                  Upvote
+                </button>
+                <button onClick={() => this.vote(answer._id, false)}>
+                  Downvote
+                </button>
+              </div>
+            </li>
           ))}
         </ul>
 
         <PostAnswer
           id={id}
-          postAnswer={(id, text) => this.props.postAnswer(id, text)}
+          postAnswer={(id, text, votes) =>
+            this.props.postAnswer(id, text, votes)
+          }
         />
       </>
     );
