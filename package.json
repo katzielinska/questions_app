@@ -16,5 +16,9 @@
   "dependencies": {
     "@reach/router": "^1.3.3",
     "fsevents": "^2.1.2"
+  },
+  "engines": {
+    "node": "10.15.3",
+    "npm": "6.9.0"
   }
 }
