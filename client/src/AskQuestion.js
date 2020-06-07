@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Link } from "@reach/router";
+import { navigate } from "@reach/router";
 
 class AskQuestion extends Component {
   constructor(props) {
@@ -17,6 +18,8 @@ class AskQuestion extends Component {
 
   onSubmit() {
     this.props.postData(this.state.text);
+    console.log(this.props);
+    window.location = "/";
   }
 
   render() {
