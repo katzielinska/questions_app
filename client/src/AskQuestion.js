@@ -18,7 +18,6 @@ class AskQuestion extends Component {
 
   onSubmit() {
     this.props.postData(this.state.text);
-    console.log(this.props);
     window.location = "/";
   }
 
